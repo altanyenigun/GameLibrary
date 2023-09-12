@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using GameLibraryApi.Data;
 using GameLibraryApi.DTO.Game;
 using GameLibraryApi.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace GameLibraryApi.Services.GameService
 {
@@ -37,5 +39,24 @@ namespace GameLibraryApi.Services.GameService
             GetGameDto data = _mapper.Map<GetGameDto>(game);
             return data;
         }
+
+        public string addGame(AddGameDto newGame)
+        {            
+            try
+            {
+                AddGameDtoValidator validator = new AddGameDtoValidator();
+                validator.ValidateAndThrow(newGame);
+                var game = _mapper.Map<Game>(newGame);
+                _context.Games.Add(game);
+                _context.SaveChanges();
+                return "Successfull";
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+         
     }
 }

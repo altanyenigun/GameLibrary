@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GameLibraryApi.DTO.Game;
 using GameLibraryApi.Models;
 using GameLibraryApi.Services.GameService;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,28 @@ namespace GameLibraryApi.Controllers
 
         [HttpGet("{id}")]
         public ActionResult<List<Game>> getById(int id){
-            return Ok(_gameService.getById(id));
+            try
+            {
+                return Ok(_gameService.getById(id));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult addGame(AddGameDto newGame){
+            try
+            {
+                return Ok(_gameService.addGame(newGame));
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 

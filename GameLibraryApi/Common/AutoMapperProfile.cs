@@ -13,6 +13,7 @@ namespace GameLibraryApi.Common
         public AutoMapperProfile()
         {
             CreateMap<Game, GetGameDto>();
+            CreateMap<AddGameDto,Game>();
         }
     }
 }
