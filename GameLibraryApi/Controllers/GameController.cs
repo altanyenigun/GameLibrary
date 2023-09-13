@@ -79,6 +79,19 @@ namespace GameLibraryApi.Controllers
             }
         }
 
+        [HttpGet("List")]
+        public ActionResult<List<GetGameDto>> listByOrder([FromQuery] ListGameDto parameters){
+            try
+            {
+                return Ok(_gameService.listByOrder(parameters));
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

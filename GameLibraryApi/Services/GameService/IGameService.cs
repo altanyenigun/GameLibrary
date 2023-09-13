@@ -14,5 +14,6 @@ namespace GameLibraryApi.Services.GameService
         string addGame(AddGameDto newGame);
         string updateGame(int id,UpdateGameDto updatedGame);
         string deleteGame(int id);
+        List<GetGameDto> listByOrder(ListGameDto parameters);
     }
 }

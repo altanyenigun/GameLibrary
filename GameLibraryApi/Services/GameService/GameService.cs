@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
@@ -95,6 +96,24 @@ namespace GameLibraryApi.Services.GameService
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public List<GetGameDto> listByOrder(ListGameDto parameters)
+        {
+            try
+            {
+                ListGameDtoValidator validator = new ListGameDtoValidator();
+                validator.ValidateAndThrow(parameters);
+                
+                var games = _context.Games.OrderBy($"{parameters.Field} {parameters.OrderBy}");
+                List<GetGameDto> gameList = _mapper.Map<List<GetGameDto>>(games);
+                return gameList;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+           
         }
     }
 }
