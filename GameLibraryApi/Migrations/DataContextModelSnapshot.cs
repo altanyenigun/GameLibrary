@@ -33,11 +33,11 @@ namespace GameLibraryApi.Migrations
                     b.Property<string>("Developer")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("GameMode")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("GameMode")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Genre")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Genre")
+                        .HasColumnType("int");
 
                     b.Property<int>("Metascore")
                         .HasColumnType("int");
@@ -45,8 +45,8 @@ namespace GameLibraryApi.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Platform")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Platform")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -63,11 +63,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 1,
                             Developer = "Larian Studios Games",
-                            GameMode = "[1,2]",
-                            Genre = "[6,10]",
+                            GameMode = 1,
+                            Genre = 4,
                             Metascore = 96,
                             Name = "Baldur's Gate 3",
-                            Platform = "[1]",
+                            Platform = 1,
                             ReleaseDate = new DateTime(2023, 9, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 7.7999999999999998
                         },
@@ -75,11 +75,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 2,
                             Developer = "From Software",
-                            GameMode = "[1,2]",
-                            Genre = "[6,1]",
+                            GameMode = 1,
+                            Genre = 4,
                             Metascore = 96,
                             Name = "Elden Ring",
-                            Platform = "[1,2,4,5]",
+                            Platform = 1,
                             ReleaseDate = new DateTime(2022, 2, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 7.7999999999999998
                         },
@@ -87,11 +87,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 3,
                             Developer = "SCE Santa Monica",
-                            GameMode = "[1]",
-                            Genre = "[11,13]",
+                            GameMode = 1,
+                            Genre = 6,
                             Metascore = 94,
                             Name = "God of War:Ragnarok",
-                            Platform = "[2]",
+                            Platform = 2,
                             ReleaseDate = new DateTime(2022, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 7.9000000000000004
                         },
@@ -99,11 +99,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 4,
                             Developer = "Valve Software",
-                            GameMode = "[1]",
-                            Genre = "[1,12]",
+                            GameMode = 1,
+                            Genre = 1,
                             Metascore = 96,
                             Name = "Half-Life 2",
-                            Platform = "[1]",
+                            Platform = 1,
                             ReleaseDate = new DateTime(2004, 11, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 9.1999999999999993
                         },
@@ -111,11 +111,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 5,
                             Developer = "Rockstar North",
-                            GameMode = "[1,2]",
-                            Genre = "[11,13]",
+                            GameMode = 2,
+                            Genre = 6,
                             Metascore = 96,
                             Name = "GTA 5",
-                            Platform = "[1,3,2,4,5]",
+                            Platform = 1,
                             ReleaseDate = new DateTime(2015, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 7.9000000000000004
                         },
@@ -123,11 +123,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 6,
                             Developer = "Rockstar North",
-                            GameMode = "[1]",
-                            Genre = "[1,12]",
+                            GameMode = 1,
+                            Genre = 1,
                             Metascore = 96,
                             Name = "Bioshock",
-                            Platform = "[1]",
+                            Platform = 1,
                             ReleaseDate = new DateTime(2007, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 8.5999999999999996
                         },
@@ -135,11 +135,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 7,
                             Developer = "LucasArts",
-                            GameMode = "[1]",
-                            Genre = "[2,4]",
+                            GameMode = 1,
+                            Genre = 2,
                             Metascore = 94,
                             Name = "Grim Fandango",
-                            Platform = "[1]",
+                            Platform = 1,
                             ReleaseDate = new DateTime(1998, 10, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 9.0
                         },
@@ -147,11 +147,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 8,
                             Developer = "Rockstar Games",
-                            GameMode = "[1,2]",
-                            Genre = "[11,13]",
+                            GameMode = 1,
+                            Genre = 6,
                             Metascore = 97,
                             Name = "Red Dead Redemption 2",
-                            Platform = "[1,2]",
+                            Platform = 1,
                             ReleaseDate = new DateTime(2018, 11, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 8.3000000000000007
                         },
@@ -159,11 +159,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 9,
                             Developer = "CD Projekt Red Studio",
-                            GameMode = "[1]",
-                            Genre = "[1,6]",
+                            GameMode = 1,
+                            Genre = 4,
                             Metascore = 91,
                             Name = "The Wither 3: Wild Hunt",
-                            Platform = "[1,2,6]",
+                            Platform = 1,
                             ReleaseDate = new DateTime(2015, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 9.0999999999999996
                         },
@@ -171,11 +171,11 @@ namespace GameLibraryApi.Migrations
                         {
                             Id = 10,
                             Developer = "Sickhead Games",
-                            GameMode = "[1]",
-                            Genre = "[6]",
+                            GameMode = 1,
+                            Genre = 4,
                             Metascore = 89,
                             Name = "Stardew Valley",
-                            Platform = "[1,2,6]",
+                            Platform = 1,
                             ReleaseDate = new DateTime(2016, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Userscore = 7.7999999999999998
                         });

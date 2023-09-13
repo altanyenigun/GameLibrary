@@ -9,9 +9,9 @@ namespace GameLibraryApi.DTO.Game
     public class AddGameDto
     {
         public string? Name { get; set; }
-        public List<GameMode>? GameMode {get;set;} = null;
-        public List<GenreEnum>? Genre {get;set;} 
-        public List<PlatformEnum>? Platform {get; set;}
+        public GameMode GameMode {get;set;}
+        public GenreEnum Genre {get;set;} 
+        public PlatformEnum Platform {get; set;}
         public DateTime ReleaseDate {get;set;}
         public string? Developer { get; set; }
         public int Metascore {get;set;}

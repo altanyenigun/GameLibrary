@@ -12,9 +12,9 @@ namespace GameLibraryApi.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string? Name { get; set; }
-        public List<GameMode>? GameMode {get;set;}
-        public List<GenreEnum>? Genre {get;set;}
-        public List<PlatformEnum>? Platform {get; set;}
+        public GameMode GameMode {get;set;}
+        public GenreEnum Genre {get;set;}
+        public PlatformEnum Platform {get; set;}
         public DateTime ReleaseDate {get;set;}
         public string? Developer { get; set; }
         public int Metascore {get;set;}
