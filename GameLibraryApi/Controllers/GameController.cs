@@ -65,6 +65,20 @@ namespace GameLibraryApi.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult deleteGame(int id)
+        {
+            try
+            {
+                return Ok(_gameService.deleteGame(id));
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

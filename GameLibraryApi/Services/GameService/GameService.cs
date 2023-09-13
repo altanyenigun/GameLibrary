@@ -78,5 +78,23 @@ namespace GameLibraryApi.Services.GameService
                 throw new Exception(ex.Message);
             }
         }
+
+        public string deleteGame(int id)
+        {
+            try
+            {
+                var game = _context.Games.FirstOrDefault(g=>g.Id == id);
+                if(game is null)
+                    throw new Exception("Böyle idye sahip bir kayıt yok");
+                _context.Games.Remove(game);
+                _context.SaveChanges();
+                return "Successfull";
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
