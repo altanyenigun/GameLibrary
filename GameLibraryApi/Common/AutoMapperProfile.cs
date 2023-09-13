@@ -14,6 +14,7 @@ namespace GameLibraryApi.Common
         {
             CreateMap<Game, GetGameDto>();
             CreateMap<AddGameDto,Game>();
+            CreateMap<UpdateGameDto,Game>();
         }
     }
 }

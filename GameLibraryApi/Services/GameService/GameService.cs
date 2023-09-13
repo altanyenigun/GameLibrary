@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
+using GameLibraryApi.Common;
 using GameLibraryApi.Data;
 using GameLibraryApi.DTO.Game;
 using GameLibraryApi.Models;
@@ -57,6 +58,25 @@ namespace GameLibraryApi.Services.GameService
             }
         }
 
-         
+        public string updateGame(int id, UpdateGameDto updatedGame)
+        {
+            try
+            {
+                var game = _context.Games.FirstOrDefault(g=>g.Id == id);
+                if(game is null)
+                    throw new Exception("Böyle idye sahip bir kayıt yok");
+                    
+                UpdateGameDtoValidator validator = new UpdateGameDtoValidator();
+                validator.ValidateAndThrow(updatedGame);
+                
+                _mapper.Map(updatedGame,game);
+                _context.SaveChanges();
+                return "Successfull";
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

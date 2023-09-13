@@ -12,5 +12,6 @@ namespace GameLibraryApi.Services.GameService
         List<GetGameDto> getAll();
         GetGameDto getById(int id);
         string addGame(AddGameDto newGame);
+        string updateGame(int id,UpdateGameDto updatedGame);
     }
 }

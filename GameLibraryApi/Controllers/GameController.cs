@@ -52,6 +52,19 @@ namespace GameLibraryApi.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public IActionResult updateGame(int id,[FromBody] UpdateGameDto updatedGame){
+            try
+            {
+                return Ok(_gameService.updateGame(id,updatedGame));
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }
