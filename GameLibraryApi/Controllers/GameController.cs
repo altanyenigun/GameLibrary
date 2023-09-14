@@ -92,6 +92,18 @@ namespace GameLibraryApi.Controllers
             }
         }
 
+        [HttpPost("Filter")]
+        public ActionResult<List<GetGameDto>> getByFilter([FromQuery] FilterGameDto filters){
+            try
+            {
+                return Ok(_gameService.getByFilter(filters));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

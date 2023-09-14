@@ -104,7 +104,6 @@ namespace GameLibraryApi.Services.GameService
             {
                 ListGameDtoValidator validator = new ListGameDtoValidator();
                 validator.ValidateAndThrow(parameters);
-                
                 var games = _context.Games.OrderBy($"{parameters.Field} {parameters.OrderBy}");
                 List<GetGameDto> gameList = _mapper.Map<List<GetGameDto>>(games);
                 return gameList;
@@ -114,6 +113,35 @@ namespace GameLibraryApi.Services.GameService
                 throw new Exception(ex.Message);
             }
            
+        }
+
+        public List<GetGameDto> getByFilter(FilterGameDto filters)
+        {
+            try
+            {
+                FilterGameDtoValidator validator = new FilterGameDtoValidator();
+                validator.ValidateAndThrow(filters);
+                var filteredGames = _context.Games.Where(g=> 
+                    (string.IsNullOrEmpty(filters.Name) || g.Name!.Contains(filters.Name)) &&
+                    (string.IsNullOrEmpty(filters.Developer) || g.Developer!.Contains(filters.Developer)) &&
+                    (filters.MinMetascore == 0 || g.Metascore > filters.MinMetascore) &&
+                    (filters.MaxMetascore == 0 || g.Metascore <= filters.MaxMetascore) &&
+                    (filters.MinUserscore == 0 || g.Userscore > filters.MinUserscore) &&
+                    (filters.MaxUserscore == 0 || g.Userscore <= filters.MaxUserscore) &&
+                    (!filters.MinReleaseDate.HasValue || g.ReleaseDate > filters.MinReleaseDate) &&
+                    (!filters.MaxReleaseDate.HasValue || g.ReleaseDate < filters.MaxReleaseDate) &&
+                    (filters.Genre == null || filters.Genre.Count == 0 || filters.Genre.Contains(g.Genre)) &&
+                    (filters.Platform == null || filters.Platform.Count == 0 || filters.Platform.Contains(g.Platform)) &&
+                    (filters.GameMode == null || filters.GameMode.Count == 0 || filters.GameMode.Contains(g.GameMode))
+                );
+                
+                List<GetGameDto> data = _mapper.Map<List<GetGameDto>>(filteredGames);
+                return data;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

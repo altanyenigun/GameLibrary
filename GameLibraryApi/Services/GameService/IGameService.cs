@@ -15,5 +15,6 @@ namespace GameLibraryApi.Services.GameService
         string updateGame(int id,UpdateGameDto updatedGame);
         string deleteGame(int id);
         List<GetGameDto> listByOrder(ListGameDto parameters);
+        List<GetGameDto> getByFilter(FilterGameDto filters);
     }
 }
