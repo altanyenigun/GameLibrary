@@ -9,9 +9,7 @@ namespace GameLibraryApi.Common
         PC=1,
         PS4,
         PS5,
-        [Description("Xbox One")]
         XboxOne,
-        [Description("Xbox Series X")]
         XboxSeriesX,
         Switch,
     }

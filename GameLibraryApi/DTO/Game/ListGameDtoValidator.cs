@@ -11,7 +11,7 @@ namespace GameLibraryApi.DTO.Game
         public ListGameDtoValidator()
         {
             RuleFor(command=>command.Field).NotEmpty();
-            RuleFor(command=>command.OrderBy).NotEmpty().Must(c=> c == "ASC" || c == "DESC").WithMessage("Sadece ASC veya DESC olabilir.");   
+            RuleFor(command=>command.OrderBy).NotEmpty().Must(c=> c == "ASC" || c == "DESC" ||  c == "asc" || c == "desc").WithMessage("It can only be 'ASC','asc' or 'DESC','desc'.");   
         }
     }
 }

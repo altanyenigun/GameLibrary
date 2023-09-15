@@ -87,6 +87,8 @@ namespace GameLibraryApi.Services.GameService
         {
             ListGameDtoValidator validator = new ListGameDtoValidator();
             validator.ValidateAndThrow(parameters);
+
+            //Thanks to the 'System.Linq.Dynamic.Core' package, we can write a query just like writing 'ORDER BY X asc' in a normal SQL query.
             var games = _context.Games.OrderBy($"{parameters.Field} {parameters.OrderBy}");
             List<GetGameDto> gameList = _mapper.Map<List<GetGameDto>>(games);
             return gameList;
@@ -97,6 +99,13 @@ namespace GameLibraryApi.Services.GameService
         {
             FilterGameDtoValidator validator = new FilterGameDtoValidator();
             validator.ValidateAndThrow(filters);
+
+            //combined linq query
+            //You can see there are a lot of '== 0' or '== null' checks here. 
+            //The reason for this is that if these fields are not entered at all, only the filters entered will be active without breaking the filter.
+            //For example, if only minUsercore is entered, it will return data according to this filter; if maxMetascore is entered on top of this, it will return data that meets these 2 conditions. 
+            //This situation continues by adding in this way.
+
             var filteredGames = _context.Games.Where(g =>
                 (string.IsNullOrEmpty(filters.Name) || g.Name!.Contains(filters.Name)) &&
                 (string.IsNullOrEmpty(filters.Developer) || g.Developer!.Contains(filters.Developer)) &&

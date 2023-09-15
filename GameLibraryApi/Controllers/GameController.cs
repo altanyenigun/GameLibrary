@@ -18,7 +18,7 @@ namespace GameLibraryApi.Controllers
 
         public GameController(IGameService gameService)
         {
-            _gameService=gameService;
+            _gameService=gameService; //dependency injection
         }
 
         [HttpGet]

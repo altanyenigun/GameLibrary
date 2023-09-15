@@ -9,14 +9,10 @@ namespace GameLibraryApi.Common
         Action=1,
         Adventure,
         Fantasy,
-        [Description("Role-Playing")]
         RolePlaying,
-        [Description("Western-Style")]
         WesternStyle,
-        [Description("Open-World")]
         OpenWorld,
         Shooter,
-        [Description("Action-Adventure")]
         ActionAdventure
     }
 }
