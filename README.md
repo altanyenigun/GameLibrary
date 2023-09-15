@@ -1,3 +1,7 @@
+## GameLibrary
+
+Currently, it is an API that only holds information about games and performs CRUD and filtering operations.
+
 ## Requirements
 
 - [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
