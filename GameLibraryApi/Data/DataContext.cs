@@ -19,6 +19,7 @@ namespace GameLibraryApi.Data
         }
 
         public DbSet<Game> Games { get; set; } // Creating the Games table that will hold the Game object in the database.
-
+        public DbSet<User> Users { get; set; } // Creating the Games table that will hold the Game object in the database.
+        
     }
 }
