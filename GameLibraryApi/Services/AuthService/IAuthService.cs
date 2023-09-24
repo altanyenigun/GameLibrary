@@ -6,9 +6,9 @@ using GameLibraryApi.DTO.User;
 using GameLibraryApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameLibraryApi.Services.UserService
+namespace GameLibraryApi.Services.AuthService
 {
-    public interface IUserService
+    public interface IAuthService
     {
         public string Register(UserRegisterDto request);
         public string Login(UserLoginDto request);

@@ -13,15 +13,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace GameLibraryApi.Services.UserService
+namespace GameLibraryApi.Services.AuthService
 {
-    public class UserService : IUserService
+    public class AuthService : IAuthService
     {
         public static User user = new User();
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
 
-        public UserService(IConfiguration configuration, DataContext context)
+        public AuthService(IConfiguration configuration, DataContext context)
         {
             _configuration = configuration;
             _context = context;
@@ -64,7 +64,7 @@ namespace GameLibraryApi.Services.UserService
             .Select(ug => ug.Game)
             .ToList();
             
-            return userGames;
+            return userGames!;
         }
 
         private string CreateToken(User user)
