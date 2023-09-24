@@ -9,6 +9,7 @@ using BCrypt.Net;
 using GameLibraryApi.DTO.Auth;
 using GameLibraryApi.Models;
 using GameLibraryApi.Services.AuthService;
+using GameLibraryApi.Services.UserInventory;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -17,24 +18,18 @@ namespace GameLibraryApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AuthController : ControllerBase
+    public class UserInventoryController : ControllerBase
     {
-        private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly IUserInventory _userInventory;
+        public UserInventoryController(IUserInventory userInventory)
         {
-            _authService = authService;
+            _userInventory = userInventory;
         }
 
-        [HttpPost("register")]
-        public ActionResult<User> Register(RegisterDto request)
+        [HttpGet("{userId}/games")]
+        public ActionResult<IEnumerable<Game>> GetUserGames(int userId)
         {
-            return Ok(_authService.Register(request));
-        }
-
-        [HttpPost("login")]
-        public ActionResult<User> Login(LoginDto request)
-        {
-            return Ok(_authService.Login(request));
+            return Ok(_userInventory.GetUserGames(userId));
         }
     }
 }

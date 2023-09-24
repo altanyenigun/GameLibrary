@@ -18,7 +18,6 @@ namespace GameLibraryApi.Services.AuthService
 {
     public class AuthService : IAuthService
     {
-        public static User user = new User();
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
 
@@ -53,17 +52,6 @@ namespace GameLibraryApi.Services.AuthService
                 throw CustomExceptions.LOGIN_ERROR;
             string token = CreateToken(user);
             return token;
-        }
-
-        public IEnumerable<Game> GetUserGames(int userId)
-        {
-            var userGames = _context.UserGames
-            .Include(ug => ug.Game)
-            .Where(ug => ug.UserId == userId)
-            .Select(ug => ug.Game)
-            .ToList();
-            
-            return userGames!;
         }
 
         private string CreateToken(User user)

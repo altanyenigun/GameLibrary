@@ -12,6 +12,5 @@ namespace GameLibraryApi.Services.AuthService
     {
         public string Register(RegisterDto request);
         public string Login(LoginDto request);
-        public IEnumerable<Game> GetUserGames(int userId);
     }
 }

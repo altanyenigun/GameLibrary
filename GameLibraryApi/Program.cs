@@ -2,6 +2,7 @@ using System.Text;
 using GameLibraryApi.Data;
 using GameLibraryApi.Services.AuthService;
 using GameLibraryApi.Services.GameService;
+using GameLibraryApi.Services.UserInventory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -38,6 +39,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserInventory, UserInventory>();
 
 var app = builder.Build();
 
