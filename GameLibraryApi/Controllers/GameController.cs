@@ -18,90 +18,49 @@ namespace GameLibraryApi.Controllers
 
         public GameController(IGameService gameService)
         {
-            _gameService=gameService; //dependency injection
+            _gameService = gameService; //dependency injection
         }
 
         [HttpGet]
-        public ActionResult<List<Game>> getAll(){
+        public ActionResult<List<Game>> getAll()
+        {
             return Ok(_gameService.getAll());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<List<Game>> getById(int id){
-            try
-            {
-                return Ok(_gameService.getById(id));
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+        public ActionResult<List<Game>> getById(int id)
+        {
+            return Ok(_gameService.getById(id));
         }
 
         [HttpPost]
-        public IActionResult addGame(AddGameDto newGame){
-            try
-            {
-                return Ok(_gameService.addGame(newGame));
-
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        public IActionResult addGame(AddGameDto newGame)
+        {
+            return Ok(_gameService.addGame(newGame));
         }
 
         [HttpPut("{id}")]
-        public IActionResult updateGame(int id,[FromBody] UpdateGameDto updatedGame){
-            try
-            {
-                return Ok(_gameService.updateGame(id,updatedGame));
-
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        public IActionResult updateGame(int id, [FromBody] UpdateGameDto updatedGame)
+        {
+            return Ok(_gameService.updateGame(id, updatedGame));
         }
 
         [HttpDelete("{id}")]
         public IActionResult deleteGame(int id)
         {
-            try
-            {
-                return Ok(_gameService.deleteGame(id));
-
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_gameService.deleteGame(id));
         }
 
         [HttpGet("List")]
-        public ActionResult<List<GetGameDto>> listByOrder([FromQuery] ListGameDto parameters){
-            try
-            {
-                return Ok(_gameService.listByOrder(parameters));
-
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        public ActionResult<List<GetGameDto>> listByOrder([FromQuery] ListGameDto parameters)
+        {
+            return Ok(_gameService.listByOrder(parameters));
         }
 
         [HttpPost("Filter")]
-        public ActionResult<List<GetGameDto>> getByFilter([FromQuery] FilterGameDto filters){
-            try
-            {
-                return Ok(_gameService.getByFilter(filters));
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+        public ActionResult<List<GetGameDto>> getByFilter([FromQuery] FilterGameDto filters)
+        {
+            return Ok(_gameService.getByFilter(filters));
         }
 
 

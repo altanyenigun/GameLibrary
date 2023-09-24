@@ -28,40 +28,19 @@ namespace GameLibraryApi.Controllers
         [HttpPost("register")]
         public ActionResult<User> Register(UserRegisterDto request)
         {
-            try
-            {
-                return Ok(_userService.Register(request));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_userService.Register(request));
         }
 
         [HttpPost("login")]
         public ActionResult<User> Login(UserLoginDto request)
         {
-            try
-            {
-                return Ok(_userService.Login(request));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_userService.Login(request));
         }
 
         [HttpGet("{userId}/games")]
         public ActionResult<IEnumerable<Game>> GetUserGames(int userId)
         {
-            try
-            {
-                return Ok(_userService.GetUserGames(userId));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(_userService.GetUserGames(userId));
         }
     }
 }

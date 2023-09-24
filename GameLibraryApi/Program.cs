@@ -54,6 +54,8 @@ app.UseAuthorization();
 
 app.UseLoggerMiddleware();
 
+app.UseExceptionMiddleware();
+
 app.MapControllers();
 
 app.Run();
