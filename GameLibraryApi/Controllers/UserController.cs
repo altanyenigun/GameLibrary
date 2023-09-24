@@ -32,7 +32,7 @@ namespace GameLibraryApi.Controllers
             {
                 return Ok(_userService.Register(request));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -45,7 +45,20 @@ namespace GameLibraryApi.Controllers
             {
                 return Ok(_userService.Login(request));
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{userId}/games")]
+        public ActionResult<IEnumerable<Game>> GetUserGames(int userId)
+        {
+            try
+            {
+                return Ok(_userService.GetUserGames(userId));
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

@@ -20,6 +20,12 @@ namespace GameLibraryApi.Data
 
         public DbSet<Game> Games { get; set; } // Creating the Games table that will hold the Game object in the database.
         public DbSet<User> Users { get; set; } // Creating the Games table that will hold the Game object in the database.
-        
+        public DbSet<UserGame> UserGames { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserGame>().HasKey(us=> new {us.UserId, us.GameId});
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace GameLibraryApi.Services.UserService
     {
         public string Register(UserRegisterDto request);
         public string Login(UserLoginDto request);
+        public IEnumerable<Game> GetUserGames(int userId);
     }
 }

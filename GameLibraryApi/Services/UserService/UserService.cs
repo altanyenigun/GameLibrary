@@ -10,6 +10,7 @@ using GameLibraryApi.DTO.User;
 using GameLibraryApi.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GameLibraryApi.Services.UserService
@@ -27,8 +28,8 @@ namespace GameLibraryApi.Services.UserService
         }
         public string Register(UserRegisterDto request)
         {
-            var user = _context.Users.FirstOrDefault(u=>u.Username == request.Username);
-            if(user is not null)
+            var user = _context.Users.FirstOrDefault(u => u.Username == request.Username);
+            if (user is not null)
                 throw new Exception("User already registered, pick another username");
 
             string PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password); // şifreyi direk olarak kaydetmemek için hashliyoruz.
@@ -47,12 +48,23 @@ namespace GameLibraryApi.Services.UserService
         public string Login(UserLoginDto request)
         {
             var user = _context.Users.FirstOrDefault(u => u.Username.ToLower().Equals(request.Username.ToLower()));
-            if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash) )
+            if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             {
                 throw new InvalidOperationException("Wrong Username or Password!");
             }
             string token = CreateToken(user);
             return token;
+        }
+
+        public IEnumerable<Game> GetUserGames(int userId)
+        {
+            var userGames = _context.UserGames
+            .Include(ug => ug.Game)
+            .Where(ug => ug.UserId == userId)
+            .Select(ug => ug.Game)
+            .ToList();
+            
+            return userGames;
         }
 
         private string CreateToken(User user)
