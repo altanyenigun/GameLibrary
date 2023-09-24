@@ -204,6 +204,29 @@ namespace GameLibraryApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PasswordHash = "$2a$11$fUnQUFbf4M60oemaV26EUOFkigpSqCMg2JowjStVWVVkntQmXMorm",
+                            Role = "Admin",
+                            Username = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PasswordHash = "$2a$11$WJH5AOwlL.H7IkHhA6IvSOuovdUbrJYcI4.jAaFoqj6DMTB.hyYbO",
+                            Role = "User",
+                            Username = "altan"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PasswordHash = "$2a$11$sLKC.xd0xpjzgfioUEjgf.3orBL7Gvdl7wIFq9.DLaQVR0SgOcZGi",
+                            Role = "User",
+                            Username = "patika"
+                        });
                 });
 
             modelBuilder.Entity("GameLibraryApi.Models.UserGame", b =>
@@ -219,6 +242,38 @@ namespace GameLibraryApi.Migrations
                     b.HasIndex("GameId");
 
                     b.ToTable("UserGames");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 2,
+                            GameId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            GameId = 2
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            GameId = 9
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            GameId = 3
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            GameId = 4
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            GameId = 5
+                        });
                 });
 
             modelBuilder.Entity("GameLibraryApi.Models.UserGame", b =>

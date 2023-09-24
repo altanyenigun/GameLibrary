@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameLibraryApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230923173628_UserTable")]
-    partial class UserTable
+    [Migration("20230924140203_InitialStart")]
+    partial class InitialStart
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -207,6 +207,95 @@ namespace GameLibraryApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PasswordHash = "$2a$11$fUnQUFbf4M60oemaV26EUOFkigpSqCMg2JowjStVWVVkntQmXMorm",
+                            Role = "Admin",
+                            Username = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PasswordHash = "$2a$11$WJH5AOwlL.H7IkHhA6IvSOuovdUbrJYcI4.jAaFoqj6DMTB.hyYbO",
+                            Role = "User",
+                            Username = "altan"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PasswordHash = "$2a$11$sLKC.xd0xpjzgfioUEjgf.3orBL7Gvdl7wIFq9.DLaQVR0SgOcZGi",
+                            Role = "User",
+                            Username = "patika"
+                        });
+                });
+
+            modelBuilder.Entity("GameLibraryApi.Models.UserGame", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "GameId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("UserGames");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 2,
+                            GameId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            GameId = 2
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            GameId = 9
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            GameId = 3
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            GameId = 4
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            GameId = 5
+                        });
+                });
+
+            modelBuilder.Entity("GameLibraryApi.Models.UserGame", b =>
+                {
+                    b.HasOne("GameLibraryApi.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GameLibraryApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

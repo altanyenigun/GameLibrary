@@ -33,6 +33,45 @@ namespace GameLibraryApi.Migrations
                     table.PrimaryKey("PK_Games", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserGames",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    GameId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserGames", x => new { x.UserId, x.GameId });
+                    table.ForeignKey(
+                        name: "FK_UserGames_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserGames_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Games",
                 columns: new[] { "Id", "Developer", "GameMode", "Genre", "Metascore", "Name", "Platform", "ReleaseDate", "Userscore" },
@@ -49,13 +88,47 @@ namespace GameLibraryApi.Migrations
                     { 9, "CD Projekt Red Studio", 1, 4, 91, "The Wither 3: Wild Hunt", 1, new DateTime(2015, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 9.0999999999999996 },
                     { 10, "Sickhead Games", 1, 4, 89, "Stardew Valley", 1, new DateTime(2016, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 7.7999999999999998 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "PasswordHash", "Role", "Username" },
+                values: new object[,]
+                {
+                    { 1, "$2a$11$fUnQUFbf4M60oemaV26EUOFkigpSqCMg2JowjStVWVVkntQmXMorm", "Admin", "admin" },
+                    { 2, "$2a$11$WJH5AOwlL.H7IkHhA6IvSOuovdUbrJYcI4.jAaFoqj6DMTB.hyYbO", "User", "altan" },
+                    { 3, "$2a$11$sLKC.xd0xpjzgfioUEjgf.3orBL7Gvdl7wIFq9.DLaQVR0SgOcZGi", "User", "patika" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserGames",
+                columns: new[] { "GameId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 2 },
+                    { 2, 2 },
+                    { 9, 2 },
+                    { 3, 3 },
+                    { 4, 3 },
+                    { 5, 3 }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserGames_GameId",
+                table: "UserGames",
+                column: "GameId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "UserGames");
+
+            migrationBuilder.DropTable(
                 name: "Games");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }
