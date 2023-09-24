@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using GameLibraryApi.Common.Exceptions;
 using GameLibraryApi.Data;
 using GameLibraryApi.DTO.User;
 using GameLibraryApi.Models;
@@ -30,7 +31,7 @@ namespace GameLibraryApi.Services.AuthService
         {
             var user = _context.Users.FirstOrDefault(u => u.Username == request.Username);
             if (user is not null)
-                throw new Exception("User already registered, pick another username");
+                throw CustomExceptions.ALREADY_REGISTERED;
 
             string PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password); // şifreyi direk olarak kaydetmemek için hashliyoruz.
             var newUser = new User
@@ -49,9 +50,7 @@ namespace GameLibraryApi.Services.AuthService
         {
             var user = _context.Users.FirstOrDefault(u => u.Username.ToLower().Equals(request.Username.ToLower()));
             if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
-            {
-                throw new InvalidOperationException("Wrong Username or Password!");
-            }
+                throw CustomExceptions.LOGIN_ERROR;
             string token = CreateToken(user);
             return token;
         }

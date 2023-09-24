@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using GameLibraryApi.Common;
+using GameLibraryApi.Common.Exceptions;
 using GameLibraryApi.Data;
 using GameLibraryApi.DTO.Game;
 using GameLibraryApi.Models;
@@ -36,9 +37,7 @@ namespace GameLibraryApi.Services.GameService
         {
             var game = _context.Games.Where(p => p.Id == id).SingleOrDefault();
             if (game is null)
-            {
-                throw new Exception("There is no record with this id.");
-            }
+                throw CustomExceptions.NOT_FOUND;
             GetGameDto data = _mapper.Map<GetGameDto>(game);
             return data;
         }
@@ -60,7 +59,7 @@ namespace GameLibraryApi.Services.GameService
 
             var game = _context.Games.FirstOrDefault(g => g.Id == id);
             if (game is null)
-                throw new Exception("There is no record with this id.");
+                throw CustomExceptions.NOT_FOUND;
 
             UpdateGameDtoValidator validator = new UpdateGameDtoValidator();
             validator.ValidateAndThrow(updatedGame);
@@ -75,7 +74,7 @@ namespace GameLibraryApi.Services.GameService
         {
             var game = _context.Games.FirstOrDefault(g => g.Id == id);
             if (game is null)
-                throw new Exception("There is no record with this id.");
+                throw CustomExceptions.NOT_FOUND;
             _context.Games.Remove(game);
             _context.SaveChanges();
             return "Successfull";

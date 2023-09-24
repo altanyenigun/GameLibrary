@@ -1,3 +1,4 @@
+using GameLibraryApi.Common.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -22,22 +23,42 @@ public class ExceptionMiddleware
         {
             await _next(context);
         }
+        catch (CustomException ex)
+        {
+            await HandleException(context, ex);
+        }
         catch (Exception ex)
         {
-            // Hata yakalandığında logla
-            _logger.LogError("Error : {0}" +
-            "\n      Method: {1}" +
-            "\n      Path: {2}",ex.Message,context.Request.Method,context.Request.Path);
-
-            // Hata mesajını istemciye döndür
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-
-            var response = new { status = context.Response.StatusCode, error = "Internal Server Error", message = ex.Message };
-            var jsonResponse = JsonSerializer.Serialize(response);
-
-            await context.Response.WriteAsync(jsonResponse);
+            await HandleException(context, ex);
         }
+    }
+
+    private async Task HandleException(HttpContext context, Exception ex)
+    {
+        context.Response.ContentType = "application/json";
+        string error = "";
+
+        _logger.LogError("Error : {0}" +
+            "\n      Method: {1}" +
+            "\n      Path: {2}", ex.Message, context.Request.Method, context.Request.Path);
+
+        // Hata mesajını istemciye döndür
+        if (ex is CustomException customException)
+        {
+            context.Response.StatusCode = customException.ErrorCode;
+            error = customException.Error;
+        }
+        else
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            error = "Internal Server Error";
+        }
+
+        var response = new { status = context.Response.StatusCode, error, message = ex.Message };
+        var jsonResponse = JsonSerializer.Serialize(response);
+
+        await context.Response.WriteAsync(jsonResponse);
+
     }
 }
 
