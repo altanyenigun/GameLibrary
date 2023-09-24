@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using BCrypt.Net;
-using GameLibraryApi.DTO.User;
+using GameLibraryApi.DTO.Auth;
 using GameLibraryApi.Models;
 using GameLibraryApi.Services.AuthService;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -26,13 +26,13 @@ namespace GameLibraryApi.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult<User> Register(UserRegisterDto request)
+        public ActionResult<User> Register(RegisterDto request)
         {
             return Ok(_authService.Register(request));
         }
 
         [HttpPost("login")]
-        public ActionResult<User> Login(UserLoginDto request)
+        public ActionResult<User> Login(LoginDto request)
         {
             return Ok(_authService.Login(request));
         }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace GameLibraryApi.DTO.User
+namespace GameLibraryApi.DTO.Auth
 {
-    public class UserRegisterDto
+    public class RegisterDto
     {
         public required string Username {get;set;}
         public required string Password {get;set;}

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GameLibraryApi.Common.Exceptions;
 using GameLibraryApi.Data;
-using GameLibraryApi.DTO.User;
+using GameLibraryApi.DTO.Auth;
 using GameLibraryApi.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +27,7 @@ namespace GameLibraryApi.Services.AuthService
             _configuration = configuration;
             _context = context;
         }
-        public string Register(UserRegisterDto request)
+        public string Register(RegisterDto request)
         {
             var user = _context.Users.FirstOrDefault(u => u.Username == request.Username);
             if (user is not null)
@@ -46,7 +46,7 @@ namespace GameLibraryApi.Services.AuthService
             return "Successful";
         }
 
-        public string Login(UserLoginDto request)
+        public string Login(LoginDto request)
         {
             var user = _context.Users.FirstOrDefault(u => u.Username.ToLower().Equals(request.Username.ToLower()));
             if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
