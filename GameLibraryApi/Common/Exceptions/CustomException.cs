@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameLibraryApi.Common.Exceptions
 {
+    // base class to use to create CustomError
     public class CustomException : Exception
     {
         public int ErrorCode { get; }
@@ -16,7 +17,7 @@ namespace GameLibraryApi.Common.Exceptions
             Error = error;
         }
     }
-
+    // Creating special error definitions for error situations that may occur in the flow
     public static class CustomExceptions
     {
         public static CustomException NOT_FOUND = new CustomException(700, "NOT_FOUND", "There is no record with this id.");

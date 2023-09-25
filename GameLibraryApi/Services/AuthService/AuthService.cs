@@ -29,14 +29,17 @@ namespace GameLibraryApi.Services.AuthService
         }
         public string Register(RegisterDto request)
         {
+            //Checking whether the incoming data is valid or not
             RegisterDtoValidator validator = new RegisterDtoValidator();
             validator.ValidateAndThrow(request);
-            
+
+
+            //Checking whether a user has already been created with the incoming username
             var user = _context.Users.FirstOrDefault(u => u.Username == request.Username);
             if (user is not null)
                 throw CustomExceptions.ALREADY_REGISTERED;
 
-            string PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password); // şifreyi direk olarak kaydetmemek için hashliyoruz.
+            string PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password); //Creating a hashed password with the password that comes with the help of BCrypt.Net-Next Package
             var newUser = new User
             {
                 Username = request.Username,
@@ -52,34 +55,39 @@ namespace GameLibraryApi.Services.AuthService
         public string Login(LoginDto request)
         {
             var user = _context.Users.FirstOrDefault(u => u.Username.ToLower().Equals(request.Username.ToLower()));
+
+            //Checking if the user exists and the password is correct
             if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 throw CustomExceptions.LOGIN_ERROR;
+
             string token = CreateToken(user);
             return token;
         }
 
+
+        //Creating jwt token based on logged in user information.
         private string CreateToken(User user)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name,user.Username), // tokana username bilgisini ekledik
-                new Claim(ClaimTypes.Role,user.Role)
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // Adding Id information to the token
+                new Claim(ClaimTypes.Name,user.Username), // Adding Username information to the token
+                new Claim(ClaimTypes.Role,user.Role) // Adding Role information to the token
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value!
-            )); // token keyini AppSettings'den aldık
+            )); //Receiving the token we created in appsettings.json
 
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature); // şifreleme işlemi
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature); //some encryption operations
 
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: creds
-            ); // oluşacak token için bilgiler.
+            ); //Defining the information to be included in the token.
 
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token); // tokeni oluşturma
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token); //Creating the token after all processing
 
             return jwt;
         }

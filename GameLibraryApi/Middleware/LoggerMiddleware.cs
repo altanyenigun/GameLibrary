@@ -17,7 +17,7 @@ public class LoggerMiddleware
 
     public async Task Invoke(HttpContext context)
     {
-        // Loglama işlemi burada yapılıyor
+        //Logging to console.
         _logger.LogInformation("Request Time: {0}" +
             "\n      Method: {1}" +
             "\n      Path: {2}",DateTime.Now,context.Request.Method,context.Request.Path);

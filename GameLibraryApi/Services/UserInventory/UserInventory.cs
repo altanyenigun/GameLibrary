@@ -27,9 +27,11 @@ namespace GameLibraryApi.Services.UserInventory
             _httpContextAccessor = httpContextAccessor;
         }
 
+        //Obtaining the user ID via the entered token.
         private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext!.User
             .FindFirstValue(ClaimTypes.NameIdentifier)!);
 
+        //Bringing games belonging to the logged in user
         public List<GetGameDto> GetUserGames()
         {
             var userGames = _context.UserGames
@@ -43,6 +45,7 @@ namespace GameLibraryApi.Services.UserInventory
             return data;
         }
 
+        //Adding the submitted gameId to the logged in user's game list.
         public string BuyGame(int gameId)
         {
             var game = _context.Games.FirstOrDefault(g => g.Id == gameId);
@@ -57,7 +60,8 @@ namespace GameLibraryApi.Services.UserInventory
             _context.SaveChanges();
             return "Successfull";
         }
-
+        
+        //Removing the submitted gameId from the logged in user's game list.
         public string RemoveGame(int gameId)
         {
             var game = _context.Games.FirstOrDefault(g => g.Id == gameId);
@@ -73,6 +77,7 @@ namespace GameLibraryApi.Services.UserInventory
             return "Successfull";
         }
 
+        //Filtering only games owned by the logged in user.
         public List<GetGameDto> GetByFilterMyGames(FilterGameDto filters)
         {
             FilterGameDtoValidator validator = new FilterGameDtoValidator();

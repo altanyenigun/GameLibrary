@@ -42,11 +42,11 @@ public class ExceptionMiddleware
             "\n      Method: {1}" +
             "\n      Path: {2}", ex.Message, context.Request.Method, context.Request.Path);
 
-        // Hata mesajını istemciye döndür
+        // If the error sent is CustomException, take action accordingly
         if (ex is CustomException customException)
         {
-            context.Response.StatusCode = customException.ErrorCode;
-            error = customException.Error;
+            context.Response.StatusCode = customException.ErrorCode; // ErrorCode
+            error = customException.Error; //Error Message
         }
         else
         {
