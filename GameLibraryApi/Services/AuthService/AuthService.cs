@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
 using GameLibraryApi.Common.Exceptions;
 using GameLibraryApi.Data;
 using GameLibraryApi.DTO.Auth;
@@ -28,6 +29,9 @@ namespace GameLibraryApi.Services.AuthService
         }
         public string Register(RegisterDto request)
         {
+            RegisterDtoValidator validator = new RegisterDtoValidator();
+            validator.ValidateAndThrow(request);
+            
             var user = _context.Users.FirstOrDefault(u => u.Username == request.Username);
             if (user is not null)
                 throw CustomExceptions.ALREADY_REGISTERED;

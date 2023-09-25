@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
 using GameLibraryApi.Common.Exceptions;
 using GameLibraryApi.Data;
 using GameLibraryApi.DTO.Game;
@@ -15,14 +16,12 @@ namespace GameLibraryApi.Services.UserInventory
     public class UserInventory : IUserInventory
     {
         private readonly DataContext _context;
-        private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 
 
-        public UserInventory(IConfiguration configuration, DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public UserInventory(DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
-            _configuration = configuration;
             _context = context;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
@@ -76,6 +75,9 @@ namespace GameLibraryApi.Services.UserInventory
 
         public List<GetGameDto> GetByFilterMyGames(FilterGameDto filters)
         {
+            FilterGameDtoValidator validator = new FilterGameDtoValidator();
+            validator.ValidateAndThrow(filters);
+
             var userGames = _context.UserGames
             .Include(ug => ug.Game)
             .Where(ug => ug.UserId == GetUserId())
