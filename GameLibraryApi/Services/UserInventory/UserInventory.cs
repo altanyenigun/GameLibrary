@@ -50,11 +50,26 @@ namespace GameLibraryApi.Services.UserInventory
             if (game is null)
                 throw CustomExceptions.NOT_FOUND;
 
-            var userGames = _context.UserGames.FirstOrDefault(ug => ug.UserId == GetUserId() && ug.GameId == gameId);
-            if (userGames is not null)
+            var userGame = _context.UserGames.FirstOrDefault(ug => ug.UserId == GetUserId() && ug.GameId == gameId);
+            if (userGame is not null)
                 throw CustomExceptions.ALREADY_OWN_GAME;
 
             _context.UserGames.Add(new UserGame { UserId = GetUserId(), GameId = gameId });
+            _context.SaveChanges();
+            return "Successfull";
+        }
+
+        public string RemoveGame(int gameId)
+        {
+            var game = _context.Games.FirstOrDefault(g => g.Id == gameId);
+            if (game is null)
+                throw CustomExceptions.NOT_FOUND;
+
+            var userGame = _context.UserGames.FirstOrDefault(ug => ug.UserId == GetUserId() && ug.GameId == gameId);
+            if (userGame is null)
+                throw CustomExceptions.DOESNT_HAVE_GAME;
+
+            _context.UserGames.Remove(userGame);
             _context.SaveChanges();
             return "Successfull";
         }

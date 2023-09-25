@@ -40,6 +40,11 @@ namespace GameLibraryApi.Controllers
             return Ok(_userInventory.BuyGame(gameId));
         }
 
+        [HttpPost("/RemoveGame")]
+        public ActionResult<IEnumerable<Game>> RemoveGame(int gameId)
+        {
+            return Ok(_userInventory.RemoveGame(gameId));
+        }
 
     }
 }
