@@ -10,12 +10,14 @@ using GameLibraryApi.DTO.Auth;
 using GameLibraryApi.Models;
 using GameLibraryApi.Services.AuthService;
 using GameLibraryApi.Services.UserInventory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GameLibraryApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserInventoryController : ControllerBase
@@ -26,10 +28,10 @@ namespace GameLibraryApi.Controllers
             _userInventory = userInventory;
         }
 
-        [HttpGet("{userId}/games")]
-        public ActionResult<IEnumerable<Game>> GetUserGames(int userId)
+        [HttpGet("/MyGames")]
+        public ActionResult<IEnumerable<Game>> GetUserGames()
         {
-            return Ok(_userInventory.GetUserGames(userId));
+            return Ok(_userInventory.GetUserGames());
         }
     }
 }

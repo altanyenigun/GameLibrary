@@ -36,6 +36,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!))
     };
 });
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -51,6 +52,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -58,7 +58,9 @@ namespace GameLibraryApi.Services.AuthService
         {
             var claims = new List<Claim>
             {
-                new Claim("Name",user.Username) // tokana username bilgisini ekledik
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name,user.Username), // tokana username bilgisini ekledik
+                new Claim(ClaimTypes.Role,user.Role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
