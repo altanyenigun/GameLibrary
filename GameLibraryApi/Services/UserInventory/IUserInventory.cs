@@ -11,5 +11,7 @@ namespace GameLibraryApi.Services.UserInventory
         public List<GetGameDto> GetUserGames();
         public string BuyGame(int gameId);
         public string RemoveGame(int gameId);
+        List<GetGameDto> GetByFilterMyGames(FilterGameDto filters);
+
     }
 }

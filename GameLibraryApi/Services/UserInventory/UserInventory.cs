@@ -73,5 +73,32 @@ namespace GameLibraryApi.Services.UserInventory
             _context.SaveChanges();
             return "Successfull";
         }
+
+        public List<GetGameDto> GetByFilterMyGames(FilterGameDto filters)
+        {
+            var userGames = _context.UserGames
+            .Include(ug => ug.Game)
+            .Where(ug => ug.UserId == GetUserId())
+            .Where(g =>
+                (string.IsNullOrEmpty(filters.Name) || g.Game!.Name!.Contains(filters.Name)) &&
+                (string.IsNullOrEmpty(filters.Developer) || g.Game!.Developer!.Contains(filters.Developer)) &&
+                (filters.MinMetascore == 0 || g.Game!.Metascore > filters.MinMetascore) &&
+                (filters.MaxMetascore == 0 || g.Game!.Metascore <= filters.MaxMetascore) &&
+                (filters.MinUserscore == 0 || g.Game!.Userscore > filters.MinUserscore) &&
+                (filters.MaxUserscore == 0 || g.Game!.Userscore <= filters.MaxUserscore) &&
+                (!filters.MinReleaseDate.HasValue || g.Game!.ReleaseDate > filters.MinReleaseDate) &&
+                (!filters.MaxReleaseDate.HasValue || g.Game!.ReleaseDate < filters.MaxReleaseDate) &&
+                (filters.Genre == null || filters.Genre.Count == 0 || filters.Genre.Contains(g.Game!.Genre)) &&
+                (filters.Platform == null || filters.Platform.Count == 0 || filters.Platform.Contains(g.Game!.Platform)) &&
+                (filters.GameMode == null || filters.GameMode.Count == 0 || filters.GameMode.Contains(g.Game!.GameMode))
+            )
+            .Select(ug => ug.Game)
+            .ToList();
+
+            List<GetGameDto> data = _mapper.Map<List<GetGameDto>>(userGames);
+
+            return data;
+
+        }
     }
 }

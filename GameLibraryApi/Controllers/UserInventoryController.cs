@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BCrypt.Net;
 using GameLibraryApi.DTO.Auth;
+using GameLibraryApi.DTO.Game;
 using GameLibraryApi.Models;
 using GameLibraryApi.Services.AuthService;
 using GameLibraryApi.Services.UserInventory;
@@ -44,6 +45,12 @@ namespace GameLibraryApi.Controllers
         public ActionResult<IEnumerable<Game>> RemoveGame(int gameId)
         {
             return Ok(_userInventory.RemoveGame(gameId));
+        }
+
+        [HttpPost("/ByFilterMyGames")]
+        public ActionResult<List<GetGameDto>> GetByFilterMyGames([FromQuery] FilterGameDto filters)
+        {
+            return Ok(_userInventory.GetByFilterMyGames(filters));
         }
 
     }
