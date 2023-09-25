@@ -9,5 +9,6 @@ namespace GameLibraryApi.Services.UserInventory
     public interface IUserInventory
     {
         public List<GetGameDto> GetUserGames();
+        public string BuyGame(int gameId);
     }
 }

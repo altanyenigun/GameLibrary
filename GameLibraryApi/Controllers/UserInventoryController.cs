@@ -33,5 +33,13 @@ namespace GameLibraryApi.Controllers
         {
             return Ok(_userInventory.GetUserGames());
         }
+
+        [HttpPost("/BuyGame")]
+        public ActionResult<IEnumerable<Game>> BuyGame(int gameId)
+        {
+            return Ok(_userInventory.BuyGame(gameId));
+        }
+
+
     }
 }
