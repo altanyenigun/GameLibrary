@@ -18,7 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace GameLibraryApi.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     [ApiController]
     [Route("[controller]")]
     public class UserInventoryController : ControllerBase
@@ -29,25 +29,25 @@ namespace GameLibraryApi.Controllers
             _userInventory = userInventory;
         }
 
-        [HttpGet("/MyGames")]
+        [HttpGet("/api/MyGames")]
         public ActionResult<IEnumerable<Game>> GetUserGames()
         {
             return Ok(_userInventory.GetUserGames());
         }
 
-        [HttpPost("/BuyGame")]
+        [HttpPost("/api/BuyGame")]
         public ActionResult<IEnumerable<Game>> BuyGame(int gameId)
         {
             return Ok(_userInventory.BuyGame(gameId));
         }
 
-        [HttpPost("/RemoveGame")]
+        [HttpPost("/api/RemoveGame")]
         public ActionResult<IEnumerable<Game>> RemoveGame(int gameId)
         {
             return Ok(_userInventory.RemoveGame(gameId));
         }
 
-        [HttpPost("/ByFilterMyGames")]
+        [HttpPost("/api/ByFilterMyGames")]
         public ActionResult<List<GetGameDto>> GetByFilterMyGames([FromQuery] FilterGameDto filters)
         {
             return Ok(_userInventory.GetByFilterMyGames(filters));

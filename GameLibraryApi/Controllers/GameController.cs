@@ -6,10 +6,12 @@ using AutoMapper;
 using GameLibraryApi.DTO.Game;
 using GameLibraryApi.Models;
 using GameLibraryApi.Services.GameService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameLibraryApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]s")]
     public class GameController : ControllerBase
@@ -33,18 +35,21 @@ namespace GameLibraryApi.Controllers
             return Ok(_gameService.getById(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult addGame(AddGameDto newGame)
         {
             return Ok(_gameService.addGame(newGame));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult updateGame(int id, [FromBody] UpdateGameDto updatedGame)
         {
             return Ok(_gameService.updateGame(id, updatedGame));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult deleteGame(int id)
         {

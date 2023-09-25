@@ -25,13 +25,13 @@ namespace GameLibraryApi.Controllers
             _authService = authService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("/register")]
         public ActionResult<User> Register(RegisterDto request)
         {
             return Ok(_authService.Register(request));
         }
 
-        [HttpPost("login")]
+        [HttpPost("/login")]
         public ActionResult<User> Login(LoginDto request)
         {
             return Ok(_authService.Login(request));
